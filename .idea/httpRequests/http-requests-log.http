@@ -1,0 +1,38 @@
+GET http://localhost:8012/store/record?key=test
+
+<> 2020-11-14T062437.200.txt
+
+###
+
+GET http://localhost:8012/store/record?key=test
+
+<> 2020-11-14T062139.200.txt
+
+###
+
+POST http://localhost:8012/store/record
+Content-Type: application/json
+
+{
+  "key": "test",
+  "value": "value"
+}
+
+###
+
+GET http://localhost:8012/store/record
+
+<> 2020-11-14T061902.500.json
+
+###
+
+GET http://localhost:8080/welcome/hello
+
+###
+
+GET http://localhost:8080/welcome/hello
+
+<> 2020-11-13T082352.200.txt
+
+###
+

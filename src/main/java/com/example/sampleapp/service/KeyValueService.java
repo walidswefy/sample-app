@@ -18,18 +18,12 @@ public class KeyValueService {
         this.repository = repository;
     }
 
-    public void store(String key, String value) {
-        KeyValue record = new KeyValue();
-        record.setKey(key);
-        record.setValue(value);
+    public void store(KeyValue record) {
         repository.save(record);
     }
 
-    public String getMessage() {
-        Optional<KeyValue> message = repository.findById("message");
-        if (message.isPresent()) {
-            return message.get().getValue();
-        }
-        return "Hello!";
+    public String getValue(String key) {
+        Optional<KeyValue> message = repository.findById(key);
+        return message.map(KeyValue::getValue).orElse(null);
     }
 }

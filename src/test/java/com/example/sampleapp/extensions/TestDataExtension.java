@@ -1,6 +1,5 @@
-package com.example.sampleapp.exntensions;
+package com.example.sampleapp.extensions;
 
-import com.example.sampleapp.model.KeyValue;
 import com.mongodb.client.MongoCollection;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonDocument;
@@ -42,7 +41,7 @@ public class TestDataExtension implements BeforeAllCallback, AfterAllCallback {
             try {
                 log.info("loading testing data...");
                 String data = new String(Files.readAllBytes(file));
-                List<Document> records = (List<Document>) Document.parse(data).get("records");
+                List<Document> records = (List<Document>) Document.parse(data).get("_records");
                 collection.insertMany(records);
             } catch (IOException e) {
                 throw new UncheckedIOException(e);

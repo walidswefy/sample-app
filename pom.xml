@@ -24,6 +24,17 @@
         <sonar.sources>${project.basedir}/src/main/</sonar.sources>
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
         <sonar.host.url>http://localhost:9001</sonar.host.url>
+
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
+        <jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
+        <jacoco.itReportFolder>${project.build.directory}/jacoco/integrationTest</jacoco.itReportFolder>
+        <jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
+
+        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+        <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
+        <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
+
     </properties>
 
     <dependencies>
@@ -91,10 +102,6 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.dropwizard.metrics</groupId>-->
-<!--            <artifactId>metrics-core</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
@@ -103,6 +110,14 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -156,7 +171,112 @@
                     </container>
                 </configuration>
             </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.jacoco</groupId>-->
+            <!--                <artifactId>jacoco-maven-plugin</artifactId>-->
+            <!--                <version>${jacoco-maven-plugin.version}</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>pre-unit-tests</id>-->
+            <!--                        <goals>-->
+            <!--                            <goal>prepare-agent</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            &lt;!&ndash; Sets the path to the file which contains the execution data. &ndash;&gt;-->
+            <!--                            <destFile>${jacoco.utReportFile}</destFile>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                    &lt;!&ndash; Ensures that the code coverage report for unit tests is created after unit tests have been run &ndash;&gt;-->
+            <!--                    <execution>-->
+            <!--                        <id>post-unit-test</id>-->
+            <!--                        <phase>test</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>report</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <dataFile>${jacoco.utReportFile}</dataFile>-->
+            <!--                            <outputDirectory>${jacoco.utReportFolder}</outputDirectory>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                    <execution>-->
+            <!--                        <id>pre-integration-tests</id>-->
+            <!--                        <goals>-->
+            <!--                            <goal>prepare-agent-integration</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            &lt;!&ndash; Sets the path to the file which contains the execution data. &ndash;&gt;-->
+            <!--                            <destFile>${jacoco.itReportFile}</destFile>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                    &lt;!&ndash; Ensures that the code coverage report for integration tests is created after integration tests have been run &ndash;&gt;-->
+            <!--                    <execution>-->
+            <!--                        <id>post-integration-tests</id>-->
+            <!--                        <phase>post-integration-test</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>report-integration</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <dataFile>${jacoco.itReportFile}</dataFile>-->
+            <!--                            <outputDirectory>${jacoco.itReportFolder}</outputDirectory>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
+
+        <!-- Plugins Configuration-->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <!-- Force alphabetical order to have a reproducible build -->
+                        <runOrder>alphabetical</runOrder>
+                        <reportsDirectory>${junit.utReportFolder}</reportsDirectory>
+                        <!-- Exclude integration tests based on name pattern or tag -->
+                        <excludes>
+                            <exclude>**/*IT*</exclude>
+                            <exclude>**/*IntTest*</exclude>
+                        </excludes>
+                        <excludedGroups>it, integration, excluded</excludedGroups>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                    <configuration>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                        <!-- Force alphabetical order to have a reproducible build -->
+                        <runOrder>alphabetical</runOrder>
+                        <reportsDirectory>${junit.itReportFolder}</reportsDirectory>
+                        <!-- Include integration tests based on tags -->
+                        <includes>
+                            <include>**/*</include>
+                        </includes>
+                        <groups>it | integration</groups>
+                        <excludedGroups>excluded</excludedGroups>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>verify</id>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
     </build>
 

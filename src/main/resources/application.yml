@@ -6,20 +6,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/test
-  #      host: localhost
-  #      port: 27017
-  #      username: guest
-  #      password: guest
-  #      database: octopusdb
-  #      authentication-database: admin
 
-  #Metrics related configurations
-#management.endpoint.metrics.enabled: true
-#management.endpoints.web.exposure.include: "*"
-#management.metrics.export:
-#  prometheus.enabled: true
-#management.endpoint.prometheus.enabled: true
-#management.endpoint.health.show-details: always
+#Add environment variable for password of encrypted properties
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
 
 management:
   endpoint:
@@ -27,12 +18,11 @@ management:
       enabled: true
     prometheus:
       enabled: true
-  metrics:
-    export:
-      prometheus:
-        enabled: true
   endpoints:
     web:
       exposure:
         include: "*"
-
+  metrics:
+    export:
+      prometheus:
+        enabled: true

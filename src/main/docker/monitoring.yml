@@ -1,5 +1,15 @@
 version: '2'
 services:
+  helloapp-app:
+    extends:
+      file: app.yml
+      service: helloapp-app
+
+  helloapp-mongodb:
+    extends:
+      file: mongodb.yml
+      service: helloapp-mongodb
+
   sampleapplication-prometheus:
     image: prom/prometheus:v2.18.1
     volumes:
@@ -9,7 +19,7 @@ services:
       - 9090:9090
     # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
-    network_mode: 'host' # to test locally running service
+    #    network_mode: 'host' # to test locally running service
   sampleapplication-grafana:
     image: grafana/grafana:7.0.1
     volumes:
@@ -20,6 +30,3 @@ services:
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
     ports:
       - 3000:3000
-    # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
-    # grafana/provisioning/datasources/datasource.yml
-    network_mode: 'host' # to test locally running service

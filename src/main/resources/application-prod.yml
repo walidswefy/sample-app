@@ -1,21 +1,2 @@
-spring:
-  data:
-    mongodb:
-      host: merchantportalmongo.network.ae
-      port: 37017
-      database: octopusdb
-      username: octopus
-      password: ENC(wo4dCzqxE9D6ibcP0YzOeuCPkOKBkpuNRq/FTAxaV44+7vw0zIfExg==)
-
-security:
-  jwt:
-    token:
-      secret-key: ENC(5hWqXOEFtdipLtFF7kdYJPs2iksoFCz3)
-      expire-length: 3600000
-
-login:
-  default-password: ENC(qzgrCXV3MLgdxwlX6Kx/t2ySFQ3QKxGk)
-
-jasypt:
-  encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+server:
+  error.include-stacktrace: never
