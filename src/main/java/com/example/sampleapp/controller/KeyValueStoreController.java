@@ -2,6 +2,7 @@ package com.example.sampleapp.controller;
 
 import com.example.sampleapp.model.KeyValue;
 import com.example.sampleapp.service.KeyValueService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/store")
+@Slf4j
 public class KeyValueStoreController {
     private final KeyValueService service;
 
@@ -19,6 +21,7 @@ public class KeyValueStoreController {
 
     @GetMapping("/record")
     public String getValue(String key) {
+        log.info("finding record for key {}", key);
         return service.getValue(key);
     }
 
