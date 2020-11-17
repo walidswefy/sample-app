@@ -1,6 +1,5 @@
 package com.example.sampleapp.logging;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

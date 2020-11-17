@@ -32,8 +32,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         body.put("timestamp", new Date());
         body.put("status", status.value());
         List<String> errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(fieldError -> fieldError.getField() + " : " + fieldError.getDefaultMessage())
-                .collect(Collectors.toList());
+            .map(fieldError -> fieldError.getField() + " : " + fieldError.getDefaultMessage())
+            .collect(Collectors.toList());
         body.put("errors", errors);
         return new ResponseEntity<>(body, headers, status);
     }
