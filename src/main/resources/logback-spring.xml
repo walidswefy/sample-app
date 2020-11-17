@@ -8,7 +8,7 @@
     <property name="MAX_HISTORY" value="30"/>
     <property name="MAX_FILE_SIZE" value="100MB"/>
 
-    <logger name="ae.network.onboarding" level="INFO"/>
+    <logger name="com.example.sampleapp" level="INFO"/>
 
     <springProfile name="elk">
         <appender name="JSON" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -18,7 +18,7 @@
                 <FileNamePattern>${FILE_NAME_PATTERN}</FileNamePattern>
                 <MaxHistory>${MAX_HISTORY}</MaxHistory>
                 <timeBasedFileNamingAndTriggeringPolicy
-                        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                     <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
                 </timeBasedFileNamingAndTriggeringPolicy>
             </rollingPolicy>
@@ -45,7 +45,7 @@
                 <FileNamePattern>${FILE_NAME_PATTERN}</FileNamePattern>
                 <MaxHistory>${MAX_HISTORY}</MaxHistory>
                 <timeBasedFileNamingAndTriggeringPolicy
-                        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                     <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
                 </timeBasedFileNamingAndTriggeringPolicy>
             </rollingPolicy>

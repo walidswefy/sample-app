@@ -6,7 +6,7 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/test
 
-#Add environment variable for password of encrypted properties
+#Add as environment variable for encrypted properties
 jasypt:
   encryptor:
     password: ${JASYPT_ENCRYPTOR_PASSWORD}

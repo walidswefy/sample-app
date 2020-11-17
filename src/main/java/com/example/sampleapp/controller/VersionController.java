@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class VersionController {
-    @Value("${git.commit.id.abbrev:N/A}")
-    private String commitId;
+    private final String commitId;
+
+    public VersionController(@Value("${git.commit.id.abbrev:N/A}") String commitId) {
+        this.commitId = commitId;
+    }
 
     @Bean
     static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {

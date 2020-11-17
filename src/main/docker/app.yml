@@ -2,7 +2,7 @@ version: '2'
 services:
   service-mainapp:
     container_name: ${APP_NAME}-main
-    image: helloapp
+    image: ${APP_IMAGE}
     ports:
       - '${APP_PORT}:8012'
     environment:

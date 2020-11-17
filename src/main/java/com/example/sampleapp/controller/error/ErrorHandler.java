@@ -44,7 +44,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        body.put("errors", "Internal server error, please reach out to us for support");
+        body.put("errors", "Internal server error, please reach out to us for support!");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 }

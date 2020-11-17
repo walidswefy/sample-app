@@ -21,7 +21,7 @@
         <git-commit-id-plugin.version>4.0.0</git-commit-id-plugin.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
 
-        <docker.image.name>helloapp</docker.image.name>
+        <docker.image.name>sampleapp</docker.image.name>
         <test.results.directory>${project.build.directory}/test-results</test.results.directory>
         <junit.itReportFolder>${test.results.directory}/integrationTest</junit.itReportFolder>
         <junit.utReportFolder>${test.results.directory}/test</junit.utReportFolder>
