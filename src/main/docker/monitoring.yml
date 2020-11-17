@@ -1,26 +1,28 @@
 version: '2'
 services:
-  helloapp-app:
+  service-mainapp:
     extends:
       file: app.yml
-      service: helloapp-app
+      service: service-mainapp
 
-  helloapp-mongodb:
+  service-mongodb:
     extends:
       file: mongodb.yml
-      service: helloapp-mongodb
+      service: service-mongodb
 
-  sampleapplication-prometheus:
+  service-prometheus:
+    container_name: ${APP_NAME}-prometheus
     image: prom/prometheus:v2.18.1
     volumes:
       - ./prometheus/:/etc/prometheus/
     command: '--config.file=/etc/prometheus/prometheus.yml'
     ports:
-      - 9090:9090
+      - ${PROMETHEUS_PORT}:9090
     # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
     #    network_mode: 'host' # to test locally running service
-  sampleapplication-grafana:
+  service-grafana:
+    container_name: ${APP_NAME}-grafana
     image: grafana/grafana:7.0.1
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -29,4 +31,4 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
     ports:
-      - 3000:3000
+      - ${GRAFANA_PORT}:3000

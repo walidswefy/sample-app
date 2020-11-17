@@ -2,10 +2,6 @@ server:
   port: 8012
 
 spring:
-  profiles:
-    include:
-      - elk
-    active: elk
   data:
     mongodb:
       uri: mongodb://localhost:27017/test

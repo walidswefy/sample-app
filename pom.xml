@@ -6,35 +6,25 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.example</groupId>
     <artifactId>sample-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sample-app</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Sample project to quickly build your project baseline</description>
 
     <properties>
         <java.version>8</java.version>
         <jib-maven-plugin.version>2.4.0</jib-maven-plugin.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <git-commit-id-plugin.version>4.0.0</git-commit-id-plugin.version>
-        <docker.image>helloapp</docker.image>
-        <sonar.exclusions>src/main/resources/**/*.*</sonar.exclusions>
-        <sonar.sources>${project.basedir}/src/main/</sonar.sources>
-        <sonar.tests>${project.basedir}/src/test/</sonar.tests>
-        <sonar.host.url>http://localhost:9001</sonar.host.url>
-
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-        <jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
-        <jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
-        <jacoco.itReportFolder>${project.build.directory}/jacoco/integrationTest</jacoco.itReportFolder>
-        <jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
 
-        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
-        <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
-        <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
-
+        <docker.image.name>helloapp</docker.image.name>
+        <test.results.directory>${project.build.directory}/test-results</test.results.directory>
+        <junit.itReportFolder>${test.results.directory}/integrationTest</junit.itReportFolder>
+        <junit.utReportFolder>${test.results.directory}/test</junit.utReportFolder>
     </properties>
 
     <dependencies>
@@ -46,7 +36,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -63,7 +52,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -73,13 +61,11 @@
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <!-- Automated JSON API documentation for API's built with Spring -->
             <groupId>io.springfox</groupId>
@@ -97,7 +83,6 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>2.1.0</version>
         </dependency>
-
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
@@ -106,7 +91,6 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
@@ -143,11 +127,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar-maven-plugin.version}</version>
-            </plugin>
-            <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
@@ -155,10 +134,6 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>org.jacoco</groupId>-->
-            <!--                <artifactId>jacoco-maven-plugin</artifactId>-->
-            <!--            </plugin>-->
         </plugins>
 
         <!-- Plugins Configuration-->
@@ -245,7 +220,7 @@
                             <image>openjdk:${java.version}-alpine</image>
                         </from>
                         <to>
-                            <image>${docker.image}:latest</image>
+                            <image>${docker.image.name}:latest</image>
                         </to>
                         <container>
                             <ports>
@@ -313,4 +288,55 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <!-- Profile to generate test code coverage report and using Sonar for code quality -->
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <property>
+                    <name>sonar</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonar-maven-plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <sonar.exclusions>src/main/resources/**/*.*</sonar.exclusions>
+                <sonar.sources>${project.basedir}/src/main/</sonar.sources>
+                <sonar.tests>${project.basedir}/src/test/</sonar.tests>
+                <sonar.host.url>http://localhost:9001</sonar.host.url>
+
+                <jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
+                <jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
+                <jacoco.itReportFolder>${project.build.directory}/jacoco/integrationTest</jacoco.itReportFolder>
+                <jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <optional>true</optional>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
