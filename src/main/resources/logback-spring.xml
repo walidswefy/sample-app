@@ -11,17 +11,17 @@
     <logger name="com.example.sampleapp" level="INFO"/>
 
     <springProfile name="elk">
-        <appender name="JSON" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>${FILE}</file>
+        <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+<!--            <file>${FILE}</file>-->
 
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <FileNamePattern>${FILE_NAME_PATTERN}</FileNamePattern>
-                <MaxHistory>${MAX_HISTORY}</MaxHistory>
-                <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                    <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
-                </timeBasedFileNamingAndTriggeringPolicy>
-            </rollingPolicy>
+<!--            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--                <FileNamePattern>${FILE_NAME_PATTERN}</FileNamePattern>-->
+<!--                <MaxHistory>${MAX_HISTORY}</MaxHistory>-->
+<!--                <timeBasedFileNamingAndTriggeringPolicy-->
+<!--                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                    <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>-->
+<!--                </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            </rollingPolicy>-->
 
             <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
         </appender>
