@@ -2,6 +2,7 @@ server:
   port: 8012
 
 spring:
+  application.name: sample-app
   data:
     mongodb:
       uri: mongodb://localhost:27017/test
@@ -25,3 +26,4 @@ management:
     export:
       prometheus:
         enabled: true
+
